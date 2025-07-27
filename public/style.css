@@ -97,34 +97,28 @@
     }
 
     /* ✅ Local Video Fixed */
-    .local-video {
-      position: fixed;  /* ✅ Always visible */
-      bottom: 100px;
-      right: 20px;
-      width: 180px;
-      height: 130px;
-      border-radius: 12px;
-      overflow: hidden;
-      border: 2px solid #fff;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.6);
-      z-index: 9999;
-    }
+ .local-video {
+  position: fixed;
+  bottom: 160px; /* ⬆ Increased to move it above controls */
+  right: 20px;
+  width: 180px;
+  height: 130px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 2px solid #fff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.6);
+  z-index: 9999;
+}
 
-    .local-video video {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
+@media (max-width: 768px) {
+  .local-video {
+    width: 110px;
+    height: 80px;
+    bottom: 140px; /* ⬆ also increased for mobile */
+    right: 12px;
+  }
+}
 
-    /* ✅ Mobile Responsive */
-    @media (max-width: 768px) {
-      .local-video {
-        width: 110px;
-        height: 80px;
-        bottom: 90px;
-        right: 12px;
-      }
-    }
 
 /* =====================
    ROOM ID MODAL
