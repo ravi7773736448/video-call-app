@@ -193,9 +193,9 @@
     /* =====================
        CONTROLS
     ===================== */
-    .controls {
-  position: absolute;
-  bottom: calc(env(safe-area-inset-bottom, 0px) + 20px);
+.controls {
+  position: fixed; /* changed from absolute to fixed */
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 60px); /* higher bottom padding */
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -204,7 +204,7 @@
   padding: 12px 24px;
   border-radius: 50px;
   backdrop-filter: blur(10px);
-  z-index: 12;
+  z-index: 9999;
 }
 
     
@@ -249,9 +249,9 @@
     }
   
 
-    @media (max-width: 768px) {
+@media (max-width: 768px) {
   .controls {
-    bottom: calc(env(safe-area-inset-bottom, 0px) + 16px);
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 50px); /* less on small screens */
     gap: 12px;
     padding: 8px 16px;
   }
