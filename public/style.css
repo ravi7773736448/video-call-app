@@ -194,18 +194,19 @@
        CONTROLS
     ===================== */
     .controls {
-      position: absolute;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      gap: 18px;
-      background: rgba(0, 0, 0, 0.5);
-      padding: 12px 24px;
-      border-radius: 50px;
-      backdrop-filter: blur(10px);
-      z-index: 12;
-    }
+  position: absolute;
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 20px);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 18px;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 12px 24px;
+  border-radius: 50px;
+  backdrop-filter: blur(10px);
+  z-index: 12;
+}
+
     
 
     .btn {
@@ -247,3 +248,17 @@
       }
     }
   
+
+    @media (max-width: 768px) {
+  .controls {
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 16px);
+    gap: 12px;
+    padding: 8px 16px;
+  }
+
+  .btn {
+    width: 50px;
+    height: 50px;
+    font-size: 22px;
+  }
+}
