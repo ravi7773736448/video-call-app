@@ -6,197 +6,22 @@
   <title>Video Calling App</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css">
-
-  <style>
-    /* ✅ Reset & Font */
-    html, body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Poppins', sans-serif;
-      background: #000;
-      color: #fff;
-      height: 100%;
-      overflow: hidden;
-    }
-
-    /* =====================
-       SPLASH SCREEN
-    ===================== */
-    #splash {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      width: 100%;
-      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-      color: #fff;
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: 9999;
-      opacity: 1;
-      transition: opacity 1s ease;
-    }
-
-    #splash.fade-out {
-      opacity: 0;
-      pointer-events: none;
-    }
-
-    #splash .logo {
-      width: 120px;
-      height: 120px;
-      margin-bottom: 20px;
-      animation: bounce 1.5s infinite ease-in-out;
-    }
-
-    @keyframes bounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-15px); }
-    }
-
-    #splash .app-name {
-      font-size: 28px;
-      font-weight: 600;
-      letter-spacing: 1px;
-    }
-
-    .hidden { display: none; }
-
-    /* =====================
-       MAIN APP
-    ===================== */
-    .app {
-      width: 100%;
-      height: 100vh;
-      overflow: hidden;
-      position: relative;
-    }
-
-    /* Header */
-    .app-header {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      text-align: center;
-      padding: 12px;
-      font-size: 20px;
-      font-weight: 600;
-      background: rgba(0, 0, 0, 0.6);
-      backdrop-filter: blur(8px);
-      z-index: 10;
-    }
-
-    /* Video Area */
-    .video-area {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #000;
-    }
-
-    #remoteVideo {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    /* ✅ Local Video Fixed */
-    .local-video {
-      position: fixed;  /* ✅ Always visible */
-      bottom: 100px;
-      right: 20px;
-      width: 180px;
-      height: 130px;
-      border-radius: 12px;
-      overflow: hidden;
-      border: 2px solid #fff;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.6);
-      z-index: 9999;
-    }
-
-    .local-video video {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    /* ✅ Mobile Responsive */
-    @media (max-width: 768px) {
-      .local-video {
-        width: 110px;
-        height: 80px;
-        bottom: 90px;
-        right: 12px;
-      }
-    }
-
-    /* =====================
-       CONTROLS
-    ===================== */
-    .controls {
-      position: absolute;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      gap: 18px;
-      background: rgba(0, 0, 0, 0.5);
-      padding: 12px 24px;
-      border-radius: 50px;
-      backdrop-filter: blur(10px);
-      z-index: 12;
-    }
-
-    .btn {
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      border: none;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 26px;
-      color: #fff;
-      cursor: pointer;
-      transition: transform 0.2s ease, background 0.2s ease;
-    }
-
-    .btn:hover {
-      transform: scale(1.15);
-    }
-
-    .green {
-      background: #28a745;
-    }
-
-    .red {
-      background: #dc3545;
-    }
-
-    @media (max-width: 768px) {
-      .controls {
-        gap: 12px;
-        padding: 8px 16px;
-      }
-
-      .btn {
-        width: 50px;
-        height: 50px;
-        font-size: 22px;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="/style.css">
 </head>
 <body>
   <!-- ✅ Splash Screen -->
   <div id="splash">
     <img src="/Preview.png" alt="App Logo" class="logo">
     <h1 class="app-name">Video Calling App</h1>
+  </div>
+
+  <!-- ✅ Room ID Modal -->
+  <div id="roomModal" class="modal" style="display: none;">
+    <div class="modal-content">
+      <h2>Enter Room ID</h2>
+      <input type="text" id="roomInput" placeholder="e.g. room123">
+      <button id="joinRoomBtn">Join</button>
+    </div>
   </div>
 
   <!-- ✅ Main App -->
@@ -208,100 +33,197 @@
         <video id="remoteVideo" autoplay playsinline></video>
       </div>
 
-      <!-- ✅ Local Video Moved OUTSIDE video-area -->
       <div class="local-video">
         <video id="localVideo" autoplay muted playsinline></video>
       </div>
 
       <div class="controls">
-        <button id="startCall" class="btn green"><i class='bx bx-phone-call'></i></button>
-        <button id="toggleAudio" class="btn red"><i class='bx bx-microphone-off'></i></button>
+        <button id="toggleAudio" class="btn green"><i class='bx bx-microphone'></i></button>
+        <button id="toggleVideo" class="btn green"><i class='bx bx-video'></i></button>
+        <button id="endCall" class="btn red"><i class='bx bx-phone-off'></i></button>
       </div>
     </div>
   </div>
 
   <!-- ✅ Socket.IO -->
   <script src="/socket.io/socket.io.js"></script>
+
   <script>
-    // ✅ Splash Screen Logic
     setTimeout(() => {
       const splash = document.getElementById('splash');
-      const main = document.getElementById('main');
-      
-      splash.classList.add('fade-out');
+      const roomModal = document.getElementById('roomModal');
 
+      splash.classList.add('fade-out');
       setTimeout(() => {
         splash.classList.add('hidden');
-        main.classList.remove('hidden');
+        roomModal.style.display = 'flex';
         startApp();
       }, 1000);
     }, 3000);
 
     function startApp() {
-      const socket = io();
-      const roomId = prompt("Enter Room ID:");
-      socket.emit('join', roomId);
+      let isOfferer = false;
 
-      const localVideo = document.querySelector('#localVideo');
-      const remoteVideo = document.querySelector('#remoteVideo');
-      let peerConnection;
-      let localStream;
+      const socket = io();
+      const roomInput = document.getElementById('roomInput');
+      const joinBtn = document.getElementById('joinRoomBtn');
+
+      let roomId = '';
+      let localStream = null;
+      let peerConnection = null;
+      let isAudioMuted = false;
+      let isVideoMuted = false;
 
       const servers = { iceServers: [{ urls: 'stun:stun.l.google.com:19302' }] };
+      const localVideo = document.getElementById('localVideo');
+      const remoteVideo = document.getElementById('remoteVideo');
+      const toggleAudioBtn = document.getElementById('toggleAudio');
+      const toggleVideoBtn = document.getElementById('toggleVideo');
+      const endCallBtn = document.getElementById('endCall');
+
+      joinBtn.addEventListener('click', async () => {
+        roomId = roomInput.value.trim();
+        if (!roomId) {
+          alert("Please enter a valid Room ID");
+          return;
+        }
+
+        document.getElementById('roomModal').style.display = 'none';
+        document.getElementById('main').classList.remove('hidden');
+
+        try {
+          localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+          localVideo.srcObject = localStream;
+          createPeerConnection();
+          socket.emit('join', roomId);
+        } catch (err) {
+          alert("Failed to access camera/mic");
+          console.error(err);
+          location.reload();
+        }
+      });
 
       function createPeerConnection() {
         peerConnection = new RTCPeerConnection(servers);
-        localStream.getTracks().forEach(track => peerConnection.addTrack(track, localStream));
 
-        peerConnection.ontrack = event => {
-          remoteVideo.srcObject = event.streams[0];
+        if (!localStream) {
+          console.warn("Local stream is not ready");
+          return;
+        }
+
+        localStream.getTracks().forEach(track => {
+          peerConnection.addTrack(track, localStream);
+        });
+
+        peerConnection.ontrack = (event) => {
+          console.log("Remote track received:", event.streams);
+          if (event.streams && event.streams[0]) {
+            remoteVideo.srcObject = event.streams[0];
+          } else {
+            const inboundStream = new MediaStream();
+            event.track && inboundStream.addTrack(event.track);
+            remoteVideo.srcObject = inboundStream;
+          }
         };
 
-        peerConnection.onicecandidate = event => {
+        peerConnection.onicecandidate = (event) => {
           if (event.candidate) {
+            console.log("Sending ICE candidate");
             socket.emit('ice-candidate', { roomId, candidate: event.candidate });
           }
         };
       }
 
-      async function createOffer() {
+      // SOCKET EVENTS
+
+      socket.on('ready', async () => {
+        console.log('Both users ready, this peer will create offer');
+        isOfferer = true;
+
         const offer = await peerConnection.createOffer();
         await peerConnection.setLocalDescription(offer);
         socket.emit('offer', { roomId, offer });
-      }
+      });
 
       socket.on('offer', async (offer) => {
-        await peerConnection.setRemoteDescription(offer);
+        console.log('Received offer');
+        await peerConnection.setRemoteDescription(new RTCSessionDescription(offer));
         const answer = await peerConnection.createAnswer();
         await peerConnection.setLocalDescription(answer);
         socket.emit('answer', { roomId, answer });
       });
 
       socket.on('answer', async (answer) => {
-        await peerConnection.setRemoteDescription(answer);
+        console.log('Received answer');
+        await peerConnection.setRemoteDescription(new RTCSessionDescription(answer));
       });
 
-      socket.on('ice-candidate', async (candidate) => {
-        try {
-          await peerConnection.addIceCandidate(candidate);
-        } catch (err) {
-          console.error('Error adding ICE candidate:', err);
-        }
+     socket.on('ice-candidate', async ({ candidate }) => {
+  try {
+    console.log("Raw ICE candidate received:", candidate);
+    
+    // ✅ Only add valid candidates
+    if (candidate && candidate.candidate && candidate.sdpMid && candidate.sdpMLineIndex !== undefined) {
+      const iceCandidate = new RTCIceCandidate(candidate);
+      await peerConnection.addIceCandidate(iceCandidate);
+      console.log("ICE candidate added");
+    } else {
+      console.warn("Malformed ICE candidate ignored:", candidate);
+    }
+  } catch (err) {
+    console.error("Error adding received ICE candidate", err);
+  }
+});
+
+
+      socket.on("call-ended", () => {
+        console.log("Call ended by remote peer");
+        if (peerConnection) peerConnection.close();
+        if (localStream) localStream.getTracks().forEach(track => track.stop());
+        remoteVideo.srcObject = null;
+        alert("The other user ended the call.");
+        location.reload();
       });
 
-      async function startLocalVideo() {
-        try {
-          localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
-          localVideo.srcObject = localStream;
-          createPeerConnection();
-        } catch (err) {
-          console.error("Check your connection", err);
-        }
-      }
+      // AUDIO TOGGLE
+      toggleAudioBtn.addEventListener('click', () => {
+        if (!localStream) return;
+        const audioTracks = localStream.getAudioTracks();
+        if (!audioTracks.length) return;
 
-      startLocalVideo();
-      document.getElementById('startCall').addEventListener('click', createOffer);
+        isAudioMuted = !isAudioMuted;
+        audioTracks.forEach(track => (track.enabled = !isAudioMuted));
+        toggleAudioBtn.innerHTML = isAudioMuted
+          ? "<i class='bx bx-microphone-off'></i>"
+          : "<i class='bx bx-microphone'></i>";
+        toggleAudioBtn.className = `btn ${isAudioMuted ? 'red' : 'green'}`;
+      });
+
+      // VIDEO TOGGLE
+      toggleVideoBtn.addEventListener('click', () => {
+        if (!localStream) return;
+        const videoTracks = localStream.getVideoTracks();
+        if (!videoTracks.length) return;
+
+        isVideoMuted = !isVideoMuted;
+        videoTracks.forEach(track => (track.enabled = !isVideoMuted));
+        toggleVideoBtn.innerHTML = isVideoMuted
+          ? "<i class='bx bx-video-off'></i>"
+          : "<i class='bx bx-video'></i>";
+        toggleVideoBtn.className = `btn ${isVideoMuted ? 'red' : 'green'}`;
+      });
+
+      // END CALL
+      endCallBtn.addEventListener('click', () => {
+        if (peerConnection) peerConnection.close();
+        if (localStream) localStream.getTracks().forEach(track => track.stop());
+        remoteVideo.srcObject = null;
+        socket.emit("call-ended", roomId);
+        alert("Call ended");
+        location.reload();
+      });
     }
   </script>
+
 </body>
 </html>

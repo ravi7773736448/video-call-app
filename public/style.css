@@ -1,212 +1,249 @@
-/* Reset & Font */
-html, body {
-  margin: 0;
-  padding: 0;
-  font-family: 'Poppins', sans-serif;
-  background: #000;
-  color: #fff;
-  height: 100%;
-  overflow: hidden;
-}
+
+    /* ✅ Reset & Font */
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      background: #000;
+      color: #fff;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    /* =====================
+       SPLASH SCREEN
+    ===================== */
+    #splash {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      width: 100%;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      color: #fff;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 9999;
+      opacity: 1;
+      transition: opacity 1s ease;
+    }
+
+    #splash.fade-out {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    #splash .logo {
+      width: 120px;
+      height: 120px;
+      margin-bottom: 20px;
+      animation: bounce 1.5s infinite ease-in-out;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+    }
+
+    #splash .app-name {
+      font-size: 28px;
+      font-weight: 600;
+      letter-spacing: 1px;
+    }
+
+    .hidden { display: none; }
+
+    /* =====================
+       MAIN APP
+    ===================== */
+    .app {
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Header */
+    .app-header {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      text-align: center;
+      padding: 12px;
+      font-size: 20px;
+      font-weight: 600;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(8px);
+      z-index: 10;
+    }
+
+    /* Video Area */
+    .video-area {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #000;
+    }
+
+    #remoteVideo {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* ✅ Local Video Fixed */
+    .local-video {
+      position: fixed;  /* ✅ Always visible */
+      bottom: 100px;
+      right: 20px;
+      width: 180px;
+      height: 130px;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 2px solid #fff;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.6);
+      z-index: 9999;
+    }
+
+    .local-video video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* ✅ Mobile Responsive */
+    @media (max-width: 768px) {
+      .local-video {
+        width: 110px;
+        height: 80px;
+        bottom: 90px;
+        right: 12px;
+      }
+    }
 
 /* =====================
-   SPLASH SCREEN
+   ROOM ID MODAL
 ===================== */
-#splash {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  width: 100%;
-  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-  color: #fff;
+.modal {
   position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 9999;
-  opacity: 1;
-  transition: opacity 1s ease;
-}
-
-#splash.fade-out {
-  opacity: 0;
-  pointer-events: none;
-}
-
-#splash .logo {
-  width: 120px;
-  height: 120px;
-  margin-bottom: 20px;
-  animation: bounce 1.5s infinite ease-in-out;
-}
-
-@keyframes bounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-15px); }
-}
-
-#splash .app-name {
-  font-size: 28px;
-  font-weight: 600;
-  letter-spacing: 1px;
-}
-
-/* Hide utility */
-.hidden { display: none; }
-
-/* =====================
-   MAIN APP
-===================== */
-.app {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: 100vh;
-  overflow: hidden;
-  position: relative;
-}
-
-/* Header */
-.app-header {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  text-align: center;
-  padding: 12px;
-  font-size: 20px;
-  font-weight: 600;
-  background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(8px);
-  z-index: 10;
-}
-
-/* Video Area */
-.video-area {
-  flex: 1;
-  position: relative;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background: rgba(0, 0, 0, 0.75);
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #000;
+  z-index: 10000;
 }
 
-#remoteVideo {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-/* Local Video */
-.local-video {
-  position: absolute;
-  bottom: 100px; /* stays above controls */
-  right: 20px;
-  width: 180px;   /* Slightly bigger for desktop */
-  height: 130px;
+.modal-content {
+  background: #1c1c1c;
+  padding: 30px 20px;
   border-radius: 12px;
-  overflow: hidden;
-  border: 2px solid #fff;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
-  z-index: 999; /* ✅ Ensure it's above remote video */
+  box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+  text-align: center;
+  width: 90%;
+  max-width: 360px;
 }
 
-.local-video video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+.modal-content h2 {
+  margin-bottom: 20px;
+  font-size: 22px;
 }
 
-/* ✅ For mobile, make it smaller */
-@media (max-width: 768px) {
-  .local-video {
-    width: 110px;
-    height: 80px;
-    bottom: 90px;
-    right: 12px;
-  }
-}
-
-
-/* =====================
-   CONTROLS
-===================== */
-.controls {
-  position: absolute;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 18px;
-  background: rgba(0, 0, 0, 0.5);
-  padding: 12px 24px;
-  border-radius: 50px;
-  backdrop-filter: blur(10px);
-  z-index: 12;
-}
-
-.btn {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
+.modal-content input {
+  width: 80%;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 8px;
   border: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 26px;
-  color: #fff;
-  cursor: pointer;
-  transition: transform 0.2s ease, background 0.2s ease;
+  margin-bottom: 20px;
+  outline: none;
 }
 
-.btn:hover {
-  transform: scale(1.15);
-}
-
-.green {
+.modal-content button {
+  padding: 10px 20px;
   background: #28a745;
+  border: none;
+  color: white;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease;
 }
 
-.red {
-  background: #dc3545;
+.modal-content button:hover {
+  background: #218838;
 }
 
-/* =====================
-   RESPONSIVE
-===================== */
-@media (max-width: 768px) {
-  .local-video {
-    width: 110px;
-    height: 80px;
-    bottom: 90px;
-    right: 12px;
-  }
 
-  .controls {
-    gap: 12px;
-    padding: 8px 16px;
-  }
-
-  .btn {
-    width: 50px;
-    height: 50px;
-    font-size: 22px;
-  }
+.waiting-message {
+  text-align: center;
+  font-size: 1.2rem;
+  margin-top: 20px;
+  color: #555;
 }
 
-@media (max-width: 480px) {
-  .app-header {
-    font-size: 16px;
-    padding: 8px;
-  }
 
-  .local-video {
-    width: 90px;
-    height: 65px;
-  }
 
-  .controls {
-    padding: 6px 14px;
-  }
-}
+    /* =====================
+       CONTROLS
+    ===================== */
+    .controls {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 18px;
+      background: rgba(0, 0, 0, 0.5);
+      padding: 12px 24px;
+      border-radius: 50px;
+      backdrop-filter: blur(10px);
+      z-index: 12;
+    }
+    
+
+    .btn {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      color: #fff;
+      cursor: pointer;
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+
+    .btn:hover {
+      transform: scale(1.15);
+    }
+
+    .green {
+      background: #28a745;
+    }
+
+    .red {
+      background: #dc3545;
+    }
+
+    @media (max-width: 768px) {
+      .controls {
+        gap: 12px;
+        padding: 8px 16px;
+      }
+
+      .btn {
+        width: 50px;
+        height: 50px;
+        font-size: 22px;
+      }
+    }
+  
